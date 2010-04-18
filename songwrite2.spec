@@ -1,23 +1,26 @@
 Name:		songwrite2
 Summary:	Guitar tabulature editor with playing and printing
 Version:	0.2
-Release:	%mkrel 1
+Release:	%mkrel 2
 Source:		http://download.gna.org/songwrite/Songwrite2-%{version}.tar.gz
 URL:		http://home.gna.org/oomadness/en/songwrite
 License:	GPLv2
 Group:		Sound
 BuildRoot:	%{_tmppath}/%{name}-buildroot
-BuildRequires:	libpython2.6-devel libpython2.6
-Requires:	python editobj TiMidity++ lilypond
+%py_requires -d
+Requires:	editobj TiMidity++ lilypond
 BuildArch:	noarch
 
 %description
-Songwrite is a tablature (guitar partition) editor.
-Songwrite is coded in Python and uses Tk (Tkinter); it relies on Timidity to
+Songwrite2 is a tablature (guitar partition) editor. It's the successor of songwrite.
+Songwrite2 is coded in Python and uses Tk (Tkinter); it relies on Timidity to
 play midi and on GNU Lilypond for printing. 
 
 %prep
 %setup -q -n Songwrite2-%version
+
+%build
+#only to fix rpmlint's warning
 
 %install
 rm -rf $RPM_BUILD_ROOT
