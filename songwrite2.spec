@@ -7,7 +7,7 @@ URL:		http://home.gna.org/oomadness/en/songwrite
 License:	GPLv2
 Group:		Sound
 BuildRoot:	%{_tmppath}/%{name}-buildroot
-BuildRequires:	libpython2.6-devel
+BuildRequires:	libpython2.6-devel libpython2.6
 Requires:	python editobj TiMidity++ lilypond
 BuildArch:	noarch
 
