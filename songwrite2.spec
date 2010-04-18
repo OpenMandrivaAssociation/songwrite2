@@ -1,7 +1,7 @@
 Name:		songwrite2
 Summary:	Guitar tabulature editor with playing and printing
-Version:	0.2
-Release:	%mkrel 2
+Version:	0.2.1
+Release:	%mkrel 1
 Source:		http://download.gna.org/songwrite/Songwrite2-%{version}.tar.gz
 URL:		http://home.gna.org/oomadness/en/songwrite
 License:	GPLv2
