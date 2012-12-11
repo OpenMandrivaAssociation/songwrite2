@@ -59,3 +59,32 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/mandriva-%{name}.desktop
 %{_datadir}/*.egg-info
 
+
+
+%changelog
+* Mon Nov 01 2010 Funda Wang <fwang@mandriva.org> 0.2.1-3mdv2011.0
++ Revision: 591341
+- rebuild for py 2.7
+
+* Sun Apr 18 2010 Sandro Cazzaniga <kharec@mandriva.org> 0.2.1-2mdv2010.1
++ Revision: 536484
+- fix requires (with importation of editobj2)
+- add an obsoletes on songwrite
+
+* Sun Apr 18 2010 Sandro Cazzaniga <kharec@mandriva.org> 0.2.1-1mdv2010.1
++ Revision: 536444
+- new version 0.2.1
+
+* Sun Apr 18 2010 Sandro Cazzaniga <kharec@mandriva.org> 0.2-2mdv2010.1
++ Revision: 536208
+- fix summary
+- add a build section for fix a rpmlint's warning
+- use %%py_requires
+
+* Sun Apr 18 2010 Sandro Cazzaniga <kharec@mandriva.org> 0.2-1mdv2010.1
++ Revision: 536173
+- try to fix rebuild with an additional BR
+- fix BR
+- import songwrite2
+
+
