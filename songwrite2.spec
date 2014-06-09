@@ -1,86 +1,65 @@
 Name:		songwrite2
 Summary:	Guitar tabulature editor with playing and printing
-Version:	0.2.1
-Release:	4
+Version:	0.4.1
+Release:	2
 Source:		http://download.gna.org/songwrite/Songwrite2-%{version}.tar.gz
-URL:		http://home.gna.org/oomadness/en/songwrite
-License:	GPLv2
+URL:		http://home.gna.org/oomadness/en/%{name}
+License:	GPLv3
 Group:		Sound
-%py_requires -d
-Requires:	editobj2 TiMidity++ lilypond
+
+BuildRequires:	desktop-file-utils
+BuildRequires:  imagemagick
+BuildRequires:  pkgconfig(python)
+Requires:	pythonegg(editobj2)
+Requires:	TiMidity++
+Requires:	lilypond
+Requires:       hicolor-icon-theme
 BuildArch:	noarch
-Obsoletes:	songwrite
+%rename		songwrite
 
 %description
 Songwrite2 is a tablature (guitar partition) editor. It's the successor of
-songwrite. Songwrite2 is coded in Python and uses Tk (Tkinter); it relies
-on Timidity to play midi and on GNU Lilypond for printing.
+songwrite. Songwrite2 is coded in Python and uses Tk (Tkinter); it relies on
+Timidity to play midi and on GNU Lilypond for printing.
+
 
 %prep
-%setup -q -n Songwrite2-%version
+%setup -q -n Songwrite2-%{version}
+
 
 %build
-#only to fix rpmlint's warning
 
 %install
 python setup.py install --root=%{buildroot}
+sed -i 's|#!/bin|#!/usr/bin|' %{buildroot}%{_bindir}/*
 
 #menu
-
 mkdir -p %{buildroot}%{_datadir}/applications
-cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop << EOF
-[Desktop Entry]
-Name=Songwrite2
-Comment=Guitar TAB editor
-Exec=%{_bindir}/%{name}
-Icon=%{name}
-Terminal=false
-Type=Application
-Categories=AudioVideo;Audio;
-Encoding=UTF-8
-EOF
+desktop-file-install	%{name}.desktop \
+			--remove-key=Encoding \
+			--set-icon=%{name} \
+			--remove-category=Application \
+			--dir=%{buildroot}%{_datadir}/applications
+# icon
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/{16x16,32x32,48x48,64x64}/apps
+convert -scale 16 data/%{name}_64x64.png %{buildroot}%{_datadir}/icons/hicolor/16x16/apps/%{name}.png
+convert -scale 32 data/%{name}_64x64.png %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/%{name}.png
+convert -scale 48 data/%{name}_64x64.png %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/%{name}.png
+convert -scale 64 data/%{name}_64x64.png %{buildroot}%{_datadir}/icons/hicolor/64x64/apps/%{name}.png
+			
 
+%find_lang %{name}
 
-%find_lang %name
-
-# remove unpackaged files
+# clean
 rm -f %{buildroot}%{_datadir}/locale/*/*/*.po
+mv %{buildroot}%{_datadir}/doc/%{name}/en/doc.pdf en-doc.pdf
+mv %{buildroot}%{_datadir}/doc/%{name}/fr/doc.pdf fr-doc.pdf
 
-
-%files -f %name.lang
-%defattr(-,root,root)
-%doc README CHANGES AUTHORS 
-%{_bindir}/%name
-%{_datadir}/%name
-%{_datadir}/applications/mandriva-%{name}.desktop
+%files -f %{name}.lang
+%doc README CHANGES AUTHORS *.pdf
+%{_bindir}/%{name}
+%{_datadir}/%{name}
+%{_datadir}/applications/%{name}.desktop
+%{_datadir}/icons/hicolor/*/apps/%{name}.png
 %{_datadir}/*.egg-info
-
-
-
-%changelog
-* Mon Nov 01 2010 Funda Wang <fwang@mandriva.org> 0.2.1-3mdv2011.0
-+ Revision: 591341
-- rebuild for py 2.7
-
-* Sun Apr 18 2010 Sandro Cazzaniga <kharec@mandriva.org> 0.2.1-2mdv2010.1
-+ Revision: 536484
-- fix requires (with importation of editobj2)
-- add an obsoletes on songwrite
-
-* Sun Apr 18 2010 Sandro Cazzaniga <kharec@mandriva.org> 0.2.1-1mdv2010.1
-+ Revision: 536444
-- new version 0.2.1
-
-* Sun Apr 18 2010 Sandro Cazzaniga <kharec@mandriva.org> 0.2-2mdv2010.1
-+ Revision: 536208
-- fix summary
-- add a build section for fix a rpmlint's warning
-- use %%py_requires
-
-* Sun Apr 18 2010 Sandro Cazzaniga <kharec@mandriva.org> 0.2-1mdv2010.1
-+ Revision: 536173
-- try to fix rebuild with an additional BR
-- fix BR
-- import songwrite2
-
-
+%{_mandir}/man1/%{name}.1.xz
